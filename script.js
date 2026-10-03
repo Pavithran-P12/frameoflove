@@ -1,119 +1,119 @@
-const loader = document.querySelector('.loader');
-
-window.addEventListener('load', () => {
-  setTimeout(() => loader?.classList.add('hide'), 450);
-});
-
+const header = document.querySelector('.nav');
 const menu = document.querySelector('.menu');
-const nav = document.querySelector('.nav nav');
+const navigation = document.querySelector('#site-navigation');
+const mobileViewport = window.matchMedia('(max-width: 800px)');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-if (menu && nav) {
+// Navigation works as ordinary links without JavaScript. Enhance it on mobile.
+if (header && menu && navigation) {
+  const pageContent = document.querySelectorAll('main, footer');
+
+  const setMenuOpen = (open, restoreFocus = false) => {
+    const isOpen = open && mobileViewport.matches;
+
+    header.classList.toggle('menu-open', isOpen);
+    document.body.classList.toggle('navigation-open', isOpen);
+    menu.setAttribute('aria-expanded', String(isOpen));
+    menu.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    pageContent.forEach(element => { element.inert = isOpen; });
+
+    if (isOpen) navigation.querySelector('a')?.focus();
+    if (restoreFocus) menu.focus();
+  };
+
+  header.classList.add('navigation-ready');
+
   menu.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-
-    nav.style.display = open ? 'flex' : '';
-
-    if (open) {
-      nav.style.position = 'absolute';
-      nav.style.top = '70px';
-      nav.style.left = '0';
-      nav.style.right = '0';
-      nav.style.padding = '25px 7vw';
-      nav.style.background = '#171613';
-      nav.style.flexDirection = 'column';
-    }
+    setMenuOpen(menu.getAttribute('aria-expanded') !== 'true');
   });
 
-  nav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-
-      if (window.innerWidth <= 800) {
-        nav.style.display = '';
-      }
-    });
+  // Preserve native fragment navigation, URL history, and external-link behavior.
+  header.addEventListener('click', event => {
+    if (event.target.closest('a')) setMenuOpen(false);
   });
-}
 
-// Smooth scrolling for internal navigation
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener('click', event => {
-    const id = link.getAttribute('href');
+  document.addEventListener('keydown', event => {
+    if (menu.getAttribute('aria-expanded') !== 'true') return;
 
-    if (id === '#') return;
-
-    const target = document.querySelector(id);
-
-    if (target) {
+    if (event.key === 'Escape') {
       event.preventDefault();
+      setMenuOpen(false, true);
+    }
 
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+    if (event.key === 'Tab') {
+      const controls = [...header.querySelectorAll('a, button')]
+        .filter(element => element.getClientRects().length > 0);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   });
-});
 
-// Scroll reveal animations
-const observer = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  {
-    threshold: 0.12
-  }
-);
-
-// Elements that animate when entering the viewport
-document
-  .querySelectorAll(
-    '.story, .package, .service, .about-copy, .manifesto-copy, .gallery img, .terms-grid'
-  )
-  .forEach(element => {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(22px)';
-    element.style.transition =
-      'opacity .8s ease, transform .8s ease';
-
-    observer.observe(element);
+  document.addEventListener('pointerdown', event => {
+    if (!header.contains(event.target) && header.classList.contains('menu-open')) {
+      setMenuOpen(false, true);
+    }
   });
 
-// Wedding film / showreel button
-const playButton = document.querySelector('.play');
+  mobileViewport.addEventListener('change', () => {
+    const focusWasInMenu = navigation.contains(document.activeElement);
+    const focusWasOnToggle = document.activeElement === menu;
 
-if (playButton) {
-  playButton.addEventListener('click', () => {
-    const instagramUrl =
-      'https://www.instagram.com/frame__of__love';
-
-    window.open(
-      instagramUrl,
-      '_blank',
-      'noopener,noreferrer'
-    );
+    setMenuOpen(false);
+    if (mobileViewport.matches && focusWasInMenu) menu.focus();
+    if (!mobileViewport.matches && focusWasOnToggle) navigation.querySelector('a')?.focus();
   });
 }
 
-// ---------------------------------------
-// FRAME OF LOVE CONTACT INFORMATION
-// ---------------------------------------
+if ('IntersectionObserver' in window) {
+  const hero = document.querySelector('.hero');
 
-// WhatsApp:
-// https://wa.me/918508301446
+  if (header && hero) {
+    header.classList.add('scroll-aware');
+    const headerObserver = new IntersectionObserver(([entry]) => {
+      header.classList.toggle('is-scrolled', !entry.isIntersecting);
+    }, { rootMargin: '-88px 0px 0px 0px' });
 
-// Phone:
-// tel:+918508301446
+    headerObserver.observe(hero);
+  }
 
-// Instagram:
-// https://www.instagram.com/frame__of__love
+  // Animate on arrival, rather than hiding content while waiting for an observer.
+  // The independent translate property leaves card hover transforms intact.
+  const activeAnimations = new Set();
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      revealObserver.unobserve(entry.target);
 
-// Google Maps:
-// https://maps.app.goo.gl/wSCaZ86pL4m23JdMA
+      if (reducedMotion.matches || typeof entry.target.animate !== 'function') return;
+
+      const animation = entry.target.animate([
+        { opacity: 0, translate: '0 18px' },
+        { opacity: 1, translate: '0 0' }
+      ], {
+        duration: 650,
+        easing: 'cubic-bezier(.22, 1, .36, 1)'
+      });
+
+      activeAnimations.add(animation);
+      const release = () => activeAnimations.delete(animation);
+      animation.addEventListener('finish', release, { once: true });
+      animation.addEventListener('cancel', release, { once: true });
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll(
+    '.story, .package, .about-copy, .manifesto-copy, .masonry a, .terms-grid'
+  ).forEach(element => revealObserver.observe(element));
+
+  reducedMotion.addEventListener('change', event => {
+    if (event.matches) activeAnimations.forEach(animation => animation.cancel());
+  });
+}
