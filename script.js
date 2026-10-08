@@ -117,3 +117,127 @@ if ('IntersectionObserver' in window) {
     if (event.matches) activeAnimations.forEach(animation => animation.cancel());
   });
 }
+
+// Films carousel: arrow buttons step one tile at a time; native swipe/scroll still works.
+const filmsTrack = document.querySelector('.films-track');
+const carouselButtons = document.querySelector('.carousel-buttons');
+
+if (filmsTrack && carouselButtons) {
+  const prev = carouselButtons.querySelector('[data-carousel-prev]');
+  const next = carouselButtons.querySelector('[data-carousel-next]');
+  carouselButtons.hidden = false;
+
+  const step = () => {
+    const tile = filmsTrack.querySelector('.film-tile');
+    const gap = parseFloat(getComputedStyle(filmsTrack).columnGap) || 0;
+    return tile ? tile.getBoundingClientRect().width + gap : filmsTrack.clientWidth * 0.8;
+  };
+
+  const updateButtons = () => {
+    const max = filmsTrack.scrollWidth - filmsTrack.clientWidth - 2;
+    prev.disabled = filmsTrack.scrollLeft <= 2;
+    next.disabled = filmsTrack.scrollLeft >= max;
+    carouselButtons.hidden = max <= 0;
+  };
+
+  const behavior = () => (reducedMotion.matches ? 'auto' : 'smooth');
+  prev.addEventListener('click', () => filmsTrack.scrollBy({ left: -step(), behavior: behavior() }));
+  next.addEventListener('click', () => filmsTrack.scrollBy({ left: step(), behavior: behavior() }));
+  filmsTrack.addEventListener('scroll', updateButtons, { passive: true });
+  window.addEventListener('resize', updateButtons);
+  updateButtons();
+}
+
+// Video tiles open in an in-page player; without JavaScript they link to YouTube.
+const videoModal = document.querySelector('.video-modal');
+
+if (videoModal && typeof videoModal.showModal === 'function') {
+  const frame = videoModal.querySelector('.video-modal-frame');
+  const closeButton = videoModal.querySelector('.video-modal-close');
+  let opener = null;
+
+  const closeVideo = () => { if (videoModal.open) videoModal.close(); };
+
+  document.querySelectorAll('[data-video-id]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      opener = link;
+
+      const { videoId, videoFormat, videoTitle } = link.dataset;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0&playsinline=1&modestbranding=1`;
+      iframe.title = videoTitle || 'Frame OF Love film';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+
+      frame.classList.toggle('is-short', videoFormat === 'short');
+      frame.replaceChildren(iframe);
+      videoModal.setAttribute('aria-label', videoTitle || 'Video player');
+      document.body.classList.add('video-open');
+      videoModal.showModal();
+      closeButton.focus();
+    });
+  });
+
+  closeButton.addEventListener('click', closeVideo);
+  videoModal.addEventListener('click', event => {
+    if (event.target === videoModal || event.target.classList.contains('video-modal-inner')) closeVideo();
+  });
+  videoModal.addEventListener('close', () => {
+    frame.replaceChildren();
+    document.body.classList.remove('video-open');
+    opener?.focus();
+  });
+}
+
+// Hero slideshow: cross-fades the background photos. Pauses for reduced motion,
+// hidden tabs, and the visitor's own pause button.
+const heroSlides = document.querySelector('[data-hero-slides]');
+const heroNav = document.querySelector('.hero-slides-nav');
+
+if (heroSlides && heroNav) {
+  const slides = [...heroSlides.querySelectorAll('img')];
+  const dots = heroNav.querySelector('.hero-dots');
+  const pause = heroNav.querySelector('.hero-pause');
+  const interval = 6500;
+  let current = Math.max(0, slides.findIndex(slide => slide.classList.contains('is-active')));
+  let timer = null;
+  let userPaused = reducedMotion.matches;
+
+  if (slides.length > 1) {
+    const dotButtons = slides.map((slide, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.setAttribute('aria-label', `Show photo ${index + 1} of ${slides.length}`);
+      button.addEventListener('click', () => { show(index); restart(); });
+      dots.append(button);
+      return button;
+    });
+
+    function show(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === current));
+      dotButtons.forEach((button, i) => button.setAttribute('aria-current', String(i === current)));
+    }
+
+    function stop() { clearInterval(timer); timer = null; }
+    function restart() {
+      stop();
+      if (!userPaused && !document.hidden) timer = setInterval(() => show(current + 1), interval);
+    }
+    function syncPause() {
+      pause.setAttribute('aria-pressed', String(userPaused));
+      pause.setAttribute('aria-label', userPaused ? 'Play slideshow' : 'Pause slideshow');
+    }
+
+    pause.addEventListener('click', () => { userPaused = !userPaused; syncPause(); restart(); });
+    document.addEventListener('visibilitychange', restart);
+    reducedMotion.addEventListener('change', event => { userPaused = event.matches; syncPause(); restart(); });
+
+    heroNav.hidden = false;
+    show(current);
+    syncPause();
+    restart();
+  }
+}
