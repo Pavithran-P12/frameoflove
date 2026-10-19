@@ -15,3 +15,6 @@ npm-debug.log*
 Thumbs.db
 .vscode/*
 !.vscode/extensions.json
+
+# full-size originals kept locally, not published
+_originals/

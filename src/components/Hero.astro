@@ -1,14 +1,17 @@
 ---
 import Photo from './Photo.astro';
-import coupleLandscape from '../assets/photos/couple-landscape.jpeg';
-import heroHorizontal from '../assets/photos/hero-horizontal.jpg';
-import landscape2 from '../assets/photos/landscape-2.jpeg';
+import hero1 from '../assets/photos/hero-1.jpg';
+import hero2 from '../assets/photos/hero-2.jpeg';
+import hero3 from '../assets/photos/hero-3.jpeg';
+import hero4 from '../assets/photos/hero-4.jpeg';
 
-// Slides cross-fade in this order. `pos` / `posMobile` set the photo's focal point.
+// Slides cross-fade in this order. `pos` / `posMobile` set the photo's focal point
+// (horizontal %, vertical %) so the couple stays in frame when the photo is cropped.
 const slides = [
-  { src: coupleLandscape, alt: 'Bride and groom surrounded by loved ones during their wedding ceremony', pos: '50% 40%', posMobile: '47% 30%' },
-  { src: heroHorizontal, alt: 'Couple sharing tea at a garden table framed by flowers and a tomato vine', pos: '75% 62%', posMobile: '80% 60%' },
-  { src: landscape2, alt: 'Couple seated outdoors at night with golden light trails behind them', pos: '50% 55%', posMobile: '52% 55%' },
+  { src: hero1, alt: 'Couple sharing tea at a garden table framed by flowers and a tomato vine', pos: '75% 62%', posMobile: '80% 60%' },
+  { src: hero2, alt: 'Groom kissing the bride on the forehead beside a laterite stone wall, framed by leaves', pos: '50% 62%', posMobile: '52% 62%' },
+  { src: hero3, alt: 'Couple standing in tall grass at golden hour beside a white horse', pos: '55% 62%', posMobile: '62% 62%' },
+  { src: hero4, alt: 'Bride and groom surrounded by loved ones during their wedding ceremony', pos: '50% 40%', posMobile: '47% 30%' },
 ];
 ---
 

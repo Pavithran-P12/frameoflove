@@ -1,0 +1,65 @@
+---
+// One client album: a two-row carousel of photos. Each photo opens full-screen in the
+// Lightbox; without JavaScript the link opens the large image directly.
+import { getImage } from 'astro:assets';
+import Photo from './Photo.astro';
+import type { Album } from '../data/albums';
+
+interface Props {
+  album: Album;
+  number: number;
+}
+
+const { album, number } = Astro.props;
+
+// Large version for the full-screen viewer.
+const large = await Promise.all(
+  album.photos.map((photo) => getImage({ src: photo.src, width: Math.min(2000, photo.src.width), format: 'webp', quality: 82 })),
+);
+
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const formatDate = (date?: string) => {
+  const match = date?.match(/^(\d{4})-(\d{2})(?:-(\d{2}))?$/);
+  if (!match) return date;
+  const [, year, month, day] = match;
+  return [day ? String(Number(day)) : '', months[Number(month) - 1], year].filter(Boolean).join(' ');
+};
+
+const label = String(number).padStart(2, '0');
+const count = album.photos.length;
+const meta = [album.location, formatDate(album.date)].filter(Boolean).join(' · ');
+const trackId = `${album.slug}-track`;
+const titleId = `${album.slug}-title`;
+---
+
+<section id={album.slug} class="album section" tabindex="-1" aria-labelledby={titleId} data-carousel>
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">{label} — {count} {count === 1 ? 'PHOTOGRAPH' : 'PHOTOGRAPHS'}</p>
+      <h2 id={titleId}>{album.title}</h2>
+      {meta && <p class="album-meta">{meta}</p>}
+    </div>
+    <div class="films-controls">
+      {album.film && (
+        <a class="text-link" href={album.film} target="_blank" rel="noopener">Watch the film <span aria-hidden="true">↗</span></a>
+      )}
+      <div class="carousel-buttons" hidden>
+        <button class="carousel-button" type="button" data-carousel-prev aria-label={`Previous photos of ${album.title}`} aria-controls={trackId}><span aria-hidden="true">←</span></button>
+        <button class="carousel-button" type="button" data-carousel-next aria-label={`Next photos of ${album.title}`} aria-controls={trackId}><span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="films-carousel">
+    <ul class="films-track album-track" id={trackId} tabindex="0" aria-label={`${album.title}: photographs`} data-carousel-track>
+      {album.photos.map((photo, i) => (
+        <li class="album-tile">
+          <a href={large[i].src} data-lightbox={album.slug} data-lightbox-title={album.title}>
+            <Photo src={photo.src} alt={`${album.title}, photo ${i + 1} of ${count}`} sizes="(max-width: 800px) 45vw, 20vw" widths={[320, 480, 640, 800]} />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="films-progress" aria-hidden="true" hidden data-carousel-progress><span></span></div>
+  </div>
+</section>

@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import AlbumReel from '../components/AlbumReel.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { getAlbums } from '../data/albums';
+import { INSTAGRAM, whatsapp } from '../data/site';
+
+const albums = getAlbums();
+---
+
+<BaseLayout
+  title="Gallery — Frame OF Love"
+  description="Wedding albums by Frame OF Love: real couples, real moments, photographed in Coimbatore, Tamil Nadu and beyond."
+>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <SiteHeader current="gallery" />
+  <main id="main-content" class="gallery-page" tabindex="-1">
+    <section class="page-hero">
+      <p class="eyebrow">THE GALLERY</p>
+      <h1>Every love story,<br /><em>in frames.</em></h1>
+      <p class="page-hero-sub">A few of the couples we have had the joy of photographing. Tap any photo to see it full screen.</p>
+      {albums.length > 1 && (
+        <nav class="album-index" aria-label="Albums">
+          {albums.map((album) => <a href={`#${album.slug}`}>{album.title}</a>)}
+        </nav>
+      )}
+    </section>
+
+    {albums.length > 0 ? (
+      albums.map((album, i) => <AlbumReel album={album} number={i + 1} />)
+    ) : (
+      <section class="album-empty section">
+        <h2>Albums are <em>on their way.</em></h2>
+        <p>In the meantime, see our latest work on Instagram.</p>
+        <a class="text-link" href={INSTAGRAM} target="_blank" rel="noopener">View Instagram <span aria-hidden="true">↗</span></a>
+      </section>
+    )}
+
+    <section class="contact gallery-cta">
+      <p class="eyebrow">LET'S CREATE</p>
+      <h2>Your story<br /><em>could be next.</em></h2>
+      <div class="contact-actions">
+        <a class="contact-button whatsapp" href={whatsapp("Hi Frame OF Love, I saw your gallery and I'd like to check availability for my wedding.")} target="_blank" rel="noopener">WhatsApp <span>↗</span></a>
+        <a class="contact-button" href="/#packages">View packages <span>↘</span></a>
+      </div>
+    </section>
+  </main>
+  <Lightbox />
+  <SiteFooter />
+</BaseLayout>

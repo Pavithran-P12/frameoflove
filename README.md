@@ -26,6 +26,8 @@ The custom domain comes from `public/CNAME`.
 | What | Where |
 | --- | --- |
 | Page layout (order of sections) | `src/pages/index.astro` |
+| Gallery page (frameoflove.co.in/gallery) | `src/pages/gallery.astro` |
+| Client albums for the Gallery (one folder each) | `src/assets/albums/` (see the README there) |
 | Each section | `src/components/*.astro` |
 | Packages, payment terms, add-ons | `src/data/packages.ts` |
 | YouTube films carousel | `src/data/films.ts` |

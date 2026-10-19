@@ -73,7 +73,7 @@ if (header && menu && navigation) {
 }
 
 if ('IntersectionObserver' in window) {
-  const hero = document.querySelector('.hero');
+  const hero = document.querySelector('.hero, .page-hero');
 
   if (header && hero) {
     header.classList.add('scroll-aware');
@@ -118,45 +118,129 @@ if ('IntersectionObserver' in window) {
   });
 }
 
-// Films carousel: two rows that scroll sideways. Arrow buttons step one column at a time;
-// native swipe/scroll still works, and a thin bar shows how far along the reel you are.
-const filmsTrack = document.querySelector('.films-track');
-const carouselButtons = document.querySelector('.carousel-buttons');
+// Carousels (Films, and each album on the Gallery page): two rows that scroll sideways.
+// Arrow buttons step one column at a time; native swipe/scroll still works, and a thin
+// bar shows how far along the reel you are.
+document.querySelectorAll('[data-carousel]').forEach(root => {
+  const track = root.querySelector('[data-carousel-track]');
+  const buttons = root.querySelector('.carousel-buttons');
+  if (!track || !buttons) return;
 
-if (filmsTrack && carouselButtons) {
-  const prev = carouselButtons.querySelector('[data-carousel-prev]');
-  const next = carouselButtons.querySelector('[data-carousel-next]');
-  carouselButtons.hidden = false;
+  const prev = buttons.querySelector('[data-carousel-prev]');
+  const next = buttons.querySelector('[data-carousel-next]');
+  const progress = root.querySelector('[data-carousel-progress]');
+  buttons.hidden = false;
 
   const step = () => {
-    const tile = filmsTrack.querySelector('.film-tile');
-    const gap = parseFloat(getComputedStyle(filmsTrack).columnGap) || 0;
-    return tile ? tile.getBoundingClientRect().width + gap : filmsTrack.clientWidth * 0.8;
+    const tile = track.firstElementChild;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    return tile ? tile.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
   };
 
-  const progress = document.querySelector('.films-progress');
-
-  const updateButtons = () => {
-    const max = filmsTrack.scrollWidth - filmsTrack.clientWidth - 2;
-    prev.disabled = filmsTrack.scrollLeft <= 2;
-    next.disabled = filmsTrack.scrollLeft >= max;
-    carouselButtons.hidden = max <= 0;
+  const update = () => {
+    const max = track.scrollWidth - track.clientWidth - 2;
+    prev.disabled = track.scrollLeft <= 2;
+    next.disabled = track.scrollLeft >= max;
+    buttons.hidden = max <= 0;
 
     if (progress) {
       progress.hidden = max <= 0;
-      const visible = filmsTrack.clientWidth / filmsTrack.scrollWidth;
-      const ratio = max > 0 ? Math.min(1, filmsTrack.scrollLeft / max) : 0;
+      const visible = track.clientWidth / track.scrollWidth;
+      const ratio = max > 0 ? Math.min(1, track.scrollLeft / max) : 0;
       progress.style.setProperty('--visible', `${visible * 100}%`);
       progress.style.setProperty('--offset', `${ratio * (1 / visible - 1) * 100}%`);
     }
   };
 
   const behavior = () => (reducedMotion.matches ? 'auto' : 'smooth');
-  prev.addEventListener('click', () => filmsTrack.scrollBy({ left: -step(), behavior: behavior() }));
-  next.addEventListener('click', () => filmsTrack.scrollBy({ left: step(), behavior: behavior() }));
-  filmsTrack.addEventListener('scroll', updateButtons, { passive: true });
-  window.addEventListener('resize', updateButtons);
-  updateButtons();
+  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: behavior() }));
+  next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: behavior() }));
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+});
+
+// Photo viewer: album photos open full screen, with arrows, swipe and the keyboard.
+// Without JavaScript each photo link simply opens the large image.
+const lightbox = document.querySelector('.lightbox');
+
+if (lightbox && typeof lightbox.showModal === 'function') {
+  const image = lightbox.querySelector('.lightbox-image');
+  const stage = lightbox.querySelector('.lightbox-stage');
+  const title = lightbox.querySelector('.lightbox-title');
+  const counter = lightbox.querySelector('.lightbox-counter');
+  const prevButton = lightbox.querySelector('.lightbox-prev');
+  const nextButton = lightbox.querySelector('.lightbox-next');
+  const closeButton = lightbox.querySelector('.lightbox-close');
+  let items = [];
+  let index = 0;
+  let opener = null;
+
+  const preload = i => {
+    const link = items[(i + items.length) % items.length];
+    if (link) new Image().src = link.href;
+  };
+
+  const show = i => {
+    index = (i + items.length) % items.length;
+    const link = items[index];
+    image.src = link.href;
+    image.alt = link.querySelector('img')?.alt || '';
+    title.textContent = link.dataset.lightboxTitle || '';
+    counter.textContent = `${index + 1} / ${items.length}`;
+    prevButton.hidden = nextButton.hidden = items.length < 2;
+    preload(index + 1);
+    preload(index - 1);
+  };
+
+  document.querySelectorAll('[data-lightbox]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      opener = link;
+      items = [...document.querySelectorAll('[data-lightbox]')]
+        .filter(item => item.dataset.lightbox === link.dataset.lightbox);
+      show(items.indexOf(link));
+      document.body.classList.add('video-open');
+      lightbox.showModal();
+      closeButton.focus();
+    });
+  });
+
+  prevButton.addEventListener('click', () => show(index - 1));
+  nextButton.addEventListener('click', () => show(index + 1));
+  closeButton.addEventListener('click', () => lightbox.close());
+
+  lightbox.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); show(index - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); show(index + 1); }
+  });
+
+  // Swipe left or right on touch screens (or drag with a mouse).
+  let startX = null;
+  let justSwiped = false;
+  stage.addEventListener('pointerdown', event => { startX = event.clientX; justSwiped = false; });
+  stage.addEventListener('pointerup', event => {
+    if (startX === null) return;
+    const distance = event.clientX - startX;
+    startX = null;
+    if (Math.abs(distance) > 50) {
+      justSwiped = true;
+      show(index + (distance < 0 ? 1 : -1));
+    }
+  });
+
+  // Click the dark area around the photo to close (but not at the end of a swipe).
+  lightbox.addEventListener('click', event => {
+    if (justSwiped) { justSwiped = false; return; }
+    if (event.target === lightbox || event.target === stage) lightbox.close();
+  });
+
+  lightbox.addEventListener('close', () => {
+    image.removeAttribute('src');
+    document.body.classList.remove('video-open');
+    opener?.focus();
+  });
 }
 
 // Video tiles open in an in-page player; without JavaScript they link to YouTube.

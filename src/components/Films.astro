@@ -3,7 +3,7 @@ import { films } from '../data/films';
 import { YOUTUBE, YOUTUBE_HANDLE } from '../data/site';
 ---
 
-<section id="films" class="films section" tabindex="-1" aria-labelledby="films-title">
+<section id="films" class="films section" tabindex="-1" aria-labelledby="films-title" data-carousel>
   <div class="section-head">
     <div>
       <p class="eyebrow">03 — FILMS</p>
@@ -19,7 +19,7 @@ import { YOUTUBE, YOUTUBE_HANDLE } from '../data/site';
   </div>
 
   <div class="films-carousel">
-    <ul class="films-track" id="films-track" tabindex="0" aria-label="Films by Frame OF Love">
+    <ul class="films-track" id="films-track" tabindex="0" aria-label="Films by Frame OF Love" data-carousel-track>
       {films.map((film) => (
         <li class="film-tile">
           <a
@@ -52,7 +52,7 @@ import { YOUTUBE, YOUTUBE_HANDLE } from '../data/site';
         </a>
       </li>
     </ul>
-    <div class="films-progress" aria-hidden="true" hidden><span></span></div>
+    <div class="films-progress" aria-hidden="true" hidden data-carousel-progress><span></span></div>
   </div>
 </section>
 
