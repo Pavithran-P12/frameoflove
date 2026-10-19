@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta name="theme-color" content="#f4f1eb">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -15,7 +16,7 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="nav">
-    <a class="brand" href="#top"><img class="brand-logo" src="./logo-mark.png" alt="Frame OF Love — home" width="466" height="462"></a>
+    <a class="brand" href="#top" aria-label="Frame OF Love — home"><img class="brand-logo brand-logo-dark" src="./Logo.png" alt="" width="622" height="623"><img class="brand-logo brand-logo-light" src="./Logo-light.png" alt="" width="622" height="623"></a>
     <nav id="site-navigation" aria-label="Main navigation">
       <a href="#stories">Stories <span aria-hidden="true">↘</span></a>
       <a href="#packages">Packages <span aria-hidden="true">↘</span></a>
@@ -243,40 +244,73 @@
       <div class="films-carousel">
         <ul class="films-track" id="films-track" tabindex="0" aria-label="Films by Frame OF Love">
           <li class="film-tile">
-            <a class="film-tile-link" href="https://www.youtube.com/watch?v=tUbrwL9xNwM" target="_blank" rel="noopener" data-video-id="tUbrwL9xNwM" data-video-format="film" data-video-title="The Story of Gavan">
+            <a class="film-tile-link" href="https://www.youtube.com/watch?v=I6GEu6qZAm8" target="_blank" rel="noopener" data-video-id="I6GEu6qZAm8" data-video-format="film" data-video-title="Traditional Wedding Video | Parikshith Nair &amp; Swetha Murali | A Timeless Kerala Wedding Story">
+              <img src="https://i.ytimg.com/vi/I6GEu6qZAm8/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async">
+              <span class="film-tile-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+              <span class="film-tile-text">
+                <span class="film-tile-meta">Wedding film · 19:53</span>
+                <span class="film-tile-title">Parikshith &amp; Swetha</span>
+                <span class="film-tile-sub">A timeless Kerala wedding story</span>
+              </span>
+            </a>
+          </li>
+          <li class="film-tile">
+            <a class="film-tile-link" href="https://www.youtube.com/watch?v=Ve4aX0PjBWw" target="_blank" rel="noopener" data-video-id="Ve4aX0PjBWw" data-video-format="film" data-video-title="A Beautiful Christian Wedding Film | Maria &amp; Nithin">
+              <img src="https://i.ytimg.com/vi/Ve4aX0PjBWw/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async">
+              <span class="film-tile-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+              <span class="film-tile-text">
+                <span class="film-tile-meta">Wedding film · 3:20</span>
+                <span class="film-tile-title">Maria &amp; Nithin</span>
+                <span class="film-tile-sub">A beautiful Christian wedding</span>
+              </span>
+            </a>
+          </li>
+          <li class="film-tile">
+            <a class="film-tile-link" href="https://www.youtube.com/watch?v=V2kkL4djCgg" target="_blank" rel="noopener" data-video-id="V2kkL4djCgg" data-video-format="film" data-video-title="As a Father Tells Their Story | Chris Kevin &amp; Bhuvana | Christian Wedding Film">
+              <img src="https://i.ytimg.com/vi/V2kkL4djCgg/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async">
+              <span class="film-tile-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+              <span class="film-tile-text">
+                <span class="film-tile-meta">Wedding film · 4:41</span>
+                <span class="film-tile-title">Chris Kevin &amp; Bhuvana</span>
+                <span class="film-tile-sub">As a father tells their story</span>
+              </span>
+            </a>
+          </li>
+          <li class="film-tile">
+            <a class="film-tile-link" href="https://www.youtube.com/watch?v=1xYELw3LuqI" target="_blank" rel="noopener" data-video-id="1xYELw3LuqI" data-video-format="film" data-video-title="A Father’s Voice, A Wedding Tradition | Uwais &amp; Ayesha | Muslim Wedding Teaser">
+              <img src="https://i.ytimg.com/vi/1xYELw3LuqI/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async">
+              <span class="film-tile-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+              <span class="film-tile-text">
+                <span class="film-tile-meta">Teaser · 1:30</span>
+                <span class="film-tile-title">Uwais &amp; Ayesha</span>
+                <span class="film-tile-sub">A father’s voice, a wedding tradition</span>
+              </span>
+            </a>
+          </li>
+          <li class="film-tile">
+            <a class="film-tile-link" href="https://www.youtube.com/watch?v=CkQ8uL1GQGM" target="_blank" rel="noopener" data-video-id="CkQ8uL1GQGM" data-video-format="film" data-video-title="M. Vignesh &amp; Sowmya | Two Hearts… One Beautiful Beginning | Save The Date">
+              <img src="https://i.ytimg.com/vi/CkQ8uL1GQGM/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async">
+              <span class="film-tile-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+              <span class="film-tile-text">
+                <span class="film-tile-meta">Save the date · 1:09</span>
+                <span class="film-tile-title">Vignesh &amp; Sowmya</span>
+                <span class="film-tile-sub">Two hearts, one beautiful beginning</span>
+              </span>
+            </a>
+          </li>
+          <li class="film-tile">
+            <a class="film-tile-link" href="https://www.youtube.com/watch?v=tUbrwL9xNwM" target="_blank" rel="noopener" data-video-id="tUbrwL9xNwM" data-video-format="film" data-video-title="The Story of Gavan | A Mother’s Love, His Name &amp; His Birthday Story">
               <img src="https://i.ytimg.com/vi/tUbrwL9xNwM/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async">
               <span class="film-tile-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
               <span class="film-tile-text">
-                <span class="film-tile-meta">Film · 8:27</span>
+                <span class="film-tile-meta">Family film · 8:27</span>
                 <span class="film-tile-title">The Story of Gavan</span>
-                <span class="film-tile-sub">A mother's love, his name and his birthday story</span>
-              </span>
-            </a>
-          </li>
-          <li class="film-tile">
-            <a class="film-tile-link" href="https://www.youtube.com/shorts/XaDofXE-fWk" target="_blank" rel="noopener" data-video-id="XaDofXE-fWk" data-video-format="short" data-video-title="Behind the Shot">
-              <img src="https://i.ytimg.com/vi/XaDofXE-fWk/oar2.jpg" alt="" width="1080" height="1920" loading="lazy" decoding="async">
-              <span class="film-tile-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
-              <span class="film-tile-text">
-                <span class="film-tile-meta">Short</span>
-                <span class="film-tile-title">Behind the Shot</span>
-                <span class="film-tile-sub">From creative setup to the final photo</span>
-              </span>
-            </a>
-          </li>
-          <li class="film-tile">
-            <a class="film-tile-link" href="https://www.youtube.com/shorts/fgqNxJzCLVk" target="_blank" rel="noopener" data-video-id="fgqNxJzCLVk" data-video-format="short" data-video-title="From Photoshoot to Bus Branding">
-              <img src="https://i.ytimg.com/vi/fgqNxJzCLVk/oar2.jpg" alt="" width="1080" height="1920" loading="lazy" decoding="async">
-              <span class="film-tile-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
-              <span class="film-tile-text">
-                <span class="film-tile-meta">Short</span>
-                <span class="film-tile-title">From Photoshoot to Bus Branding</span>
-                <span class="film-tile-sub">The making behind the final design</span>
+                <span class="film-tile-sub">A mother’s love, his name and his birthday</span>
               </span>
             </a>
           </li>
           <li class="film-tile film-tile-more">
-            <a class="film-tile-link" href="https://www.youtube.com/@frame_of_love_01" target="_blank" rel="noopener">
+            <a class="film-tile-link" href="https://www.youtube.com/@frame_of_love_01/videos" target="_blank" rel="noopener">
               <span class="film-tile-more-mark" aria-hidden="true">↗</span>
               <span class="film-tile-text">
                 <span class="film-tile-meta">YouTube</span>
@@ -286,6 +320,7 @@
             </a>
           </li>
         </ul>
+        <div class="films-progress" aria-hidden="true" hidden><span></span></div>
       </div>
     </section>
 
@@ -357,7 +392,7 @@
   </main>
 
   <footer>
-    <a class="brand" href="#top"><img class="brand-logo" src="./logo-mark.png" alt="Frame OF Love — back to top" width="466" height="462" loading="lazy" decoding="async"></a>
+    <a class="brand" href="#top"><img class="brand-logo" src="./Logo-light.png" alt="Frame OF Love — back to top" width="622" height="623" loading="lazy" decoding="async"></a>
     <p>Wedding photography & cinematic films · Coimbatore</p>
     <a href="#top">Back to top ↑</a>
     <a class="floating-whatsapp" href="https://wa.me/918508301446?text=Hi%20Frame%20of%20Love%21%20I%27d%20like%20to%20enquire%20about%20your%20photography%20packages." target="_blank" rel="noopener noreferrer" aria-label="Enquire about photography packages on WhatsApp (opens in a new tab)">

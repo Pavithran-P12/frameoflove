@@ -118,7 +118,8 @@ if ('IntersectionObserver' in window) {
   });
 }
 
-// Films carousel: arrow buttons step one tile at a time; native swipe/scroll still works.
+// Films carousel: two rows that scroll sideways. Arrow buttons step one column at a time;
+// native swipe/scroll still works, and a thin bar shows how far along the reel you are.
 const filmsTrack = document.querySelector('.films-track');
 const carouselButtons = document.querySelector('.carousel-buttons');
 
@@ -133,11 +134,21 @@ if (filmsTrack && carouselButtons) {
     return tile ? tile.getBoundingClientRect().width + gap : filmsTrack.clientWidth * 0.8;
   };
 
+  const progress = document.querySelector('.films-progress');
+
   const updateButtons = () => {
     const max = filmsTrack.scrollWidth - filmsTrack.clientWidth - 2;
     prev.disabled = filmsTrack.scrollLeft <= 2;
     next.disabled = filmsTrack.scrollLeft >= max;
     carouselButtons.hidden = max <= 0;
+
+    if (progress) {
+      progress.hidden = max <= 0;
+      const visible = filmsTrack.clientWidth / filmsTrack.scrollWidth;
+      const ratio = max > 0 ? Math.min(1, filmsTrack.scrollLeft / max) : 0;
+      progress.style.setProperty('--visible', `${visible * 100}%`);
+      progress.style.setProperty('--offset', `${ratio * (1 / visible - 1) * 100}%`);
+    }
   };
 
   const behavior = () => (reducedMotion.matches ? 'auto' : 'smooth');
@@ -161,12 +172,19 @@ if (videoModal && typeof videoModal.showModal === 'function') {
   document.querySelectorAll('[data-video-id]').forEach(link => {
     link.addEventListener('click', event => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      // YouTube refuses embeds that arrive without a referring website (Error 153),
+      // which is always the case when the page is opened as a local file.
+      // There, let the link open the video on YouTube instead.
+      if (location.protocol === 'file:') return;
       event.preventDefault();
       opener = link;
 
       const { videoId, videoFormat, videoTitle } = link.dataset;
       const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0&playsinline=1&modestbranding=1`;
+      const params = new URLSearchParams({ autoplay: '1', rel: '0', playsinline: '1', origin: location.origin });
+      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?${params}`;
+      // YouTube needs to see which site the player is on; never strip the referrer.
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       iframe.title = videoTitle || 'Frame OF Love film';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
