@@ -1,0 +1,30 @@
+---
+import Photo from './Photo.astro';
+import founder1 from '../assets/photos/founder-1.jpg';
+import founder2 from '../assets/photos/founder-2.jpg';
+---
+
+<section id="about" class="about section" tabindex="-1">
+  <div class="about-number">04</div>
+  <div>
+    <p class="eyebrow dark">ABOUT FRAME OF LOVE</p>
+    <h2>Real people.<br />Real <em>moments.</em></h2>
+    <figure class="founder">
+      <div class="founder-photos">
+        <Photo class="founder-main" src={founder1} alt="Arjun AS, founder of Frame OF Love, seated with his camera in a warmly lit studio" sizes="(max-width: 800px) 70vw, 28vw" />
+        <Photo class="founder-inset" src={founder2} alt="Arjun AS walking a race track with his camera" sizes="(max-width: 800px) 35vw, 14vw" />
+      </div>
+      <figcaption><strong>Arjun AS</strong><span>Founder, Frame OF Love</span></figcaption>
+    </figure>
+  </div>
+  <div class="about-copy">
+    <p>Frame OF Love is a wedding photography and cinema studio based in Coimbatore. We have been telling love stories since 14 February 2021, and have covered more than 200 weddings along the way.</p>
+    <p>For my team and me, photography is about people being real. It is about painting a picture of your precious moments, so you can remember them forever. The story that matters most is of real people and preciously real moments.</p>
+    <p class="founder-sign">— Arjun AS, Founder</p>
+    <div class="stats">
+      <div><strong>200+</strong><span>Weddings covered</span></div>
+      <div><strong>2021</strong><span>Since 14 February</span></div>
+      <div><strong>Coimbatore</strong><span>Home base · TN &amp; beyond</span></div>
+    </div>
+  </div>
+</section>

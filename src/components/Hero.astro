@@ -1,0 +1,44 @@
+---
+import Photo from './Photo.astro';
+import coupleLandscape from '../assets/photos/couple-landscape.jpeg';
+import heroHorizontal from '../assets/photos/hero-horizontal.jpg';
+import landscape2 from '../assets/photos/landscape-2.jpeg';
+
+// Slides cross-fade in this order. `pos` / `posMobile` set the photo's focal point.
+const slides = [
+  { src: coupleLandscape, alt: 'Bride and groom surrounded by loved ones during their wedding ceremony', pos: '50% 40%', posMobile: '47% 30%' },
+  { src: heroHorizontal, alt: 'Couple sharing tea at a garden table framed by flowers and a tomato vine', pos: '75% 62%', posMobile: '80% 60%' },
+  { src: landscape2, alt: 'Couple seated outdoors at night with golden light trails behind them', pos: '50% 55%', posMobile: '52% 55%' },
+];
+---
+
+<section class="hero">
+  <div class="hero-media" data-hero-slides>
+    {slides.map((slide, i) => (
+      <Photo
+        class={i === 0 ? 'is-active' : undefined}
+        src={slide.src}
+        alt={slide.alt}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority={i === 0 ? 'high' : 'auto'}
+        style={`--pos: ${slide.pos}; --pos-m: ${slide.posMobile}`}
+      />
+    ))}
+  </div>
+  <div class="hero-shade"></div>
+  <div class="hero-copy">
+    <p class="eyebrow">COIMBATORE · TAMIL NADU · DESTINATION</p>
+    <h1>Turning moments<br /><em>into forever.</em></h1>
+    <p class="hero-sub">Photography is about us painting a picture of your precious moments to remember forever.</p>
+    <a class="circle-link" href="#stories">Explore stories <span>↓</span></a>
+  </div>
+  <div class="hero-bottom">
+    <span>WEDDING PHOTOGRAPHY & CINEMA</span>
+    <div class="hero-slides-nav" hidden>
+      <div class="hero-dots"></div>
+      <button class="hero-pause" type="button" aria-label="Pause slideshow" aria-pressed="false"><span aria-hidden="true"></span></button>
+    </div>
+    <span>SCROLL TO DISCOVER ↓</span>
+  </div>
+</section>

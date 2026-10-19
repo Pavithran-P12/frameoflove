@@ -1,0 +1,14 @@
+---
+import Photo from './Photo.astro';
+import coupleLandscape from '../assets/photos/couple-landscape.jpeg';
+---
+
+<section class="film-break">
+  <Photo src={coupleLandscape} alt="Bride and groom sharing a moment during their wedding ceremony" sizes="100vw" />
+  <div class="film-overlay">
+    <span>FRAME OF LOVE FILMS</span>
+    <h2>Your day.<br /><em>Your film.</em></h2>
+    <a class="play" href="#films" aria-label="Watch our films"><span aria-hidden="true">↓</span></a>
+    <p class="film-caption">Watch our films</p>
+  </div>
+</section>

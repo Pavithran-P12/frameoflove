@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import Intro from '../components/Intro.astro';
+import Stories from '../components/Stories.astro';
+import Manifesto from '../components/Manifesto.astro';
+import Packages from '../components/Packages.astro';
+import FilmBreak from '../components/FilmBreak.astro';
+import Films from '../components/Films.astro';
+import About from '../components/About.astro';
+import Gallery from '../components/Gallery.astro';
+import Contact from '../components/Contact.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <SiteHeader />
+  <main id="main-content" tabindex="-1">
+    <Hero />
+    <Intro />
+    <Stories />
+    <Manifesto />
+    <Packages />
+    <FilmBreak />
+    <Films />
+    <About />
+    <Gallery />
+    <Contact />
+  </main>
+  <SiteFooter />
+</BaseLayout>

@@ -1,0 +1,39 @@
+---
+import Photo from './Photo.astro';
+import { INSTAGRAM } from '../data/site';
+import portrait1 from '../assets/photos/portrait-1.jpg';
+import portrait2 from '../assets/photos/portrait-2.jpg';
+import portrait3 from '../assets/photos/portrait-3.jpg';
+import portrait4 from '../assets/photos/portrait-4.jpg';
+import portrait5 from '../assets/photos/portrait-5.jpg';
+import bride from '../assets/photos/bride.jpeg';
+import couplePortrait from '../assets/photos/couple-portrait.jpeg';
+import couplePortrait2 from '../assets/photos/couple-portrait-2.jpeg';
+import maternity from '../assets/photos/maternity.jpeg';
+
+const photos = [
+  { src: portrait1, alt: 'Couple in traditional attire on a carved wooden veranda, the bride in a red silk saree', label: 'View more couple portraits on Instagram' },
+  { src: bride, alt: 'Bride in rose-toned wedding attire outdoors', label: 'View more bridal photographs on Instagram' },
+  { src: portrait2, alt: 'Couple seated on a petal-strewn floor beside an antique mirror and gramophone', label: 'View more couple portraits on Instagram' },
+  { src: couplePortrait, alt: 'Black-and-white couple portrait beneath a veil', label: 'View more couple portraits on Instagram' },
+  { src: portrait3, alt: 'Couple leaning on a carved wooden balcony rail between ornate pillars', label: 'View more couple portraits on Instagram' },
+  { src: maternity, alt: 'Expectant parents sharing a quiet moment in a sunlit room', label: 'View more maternity photographs on Instagram' },
+  { src: portrait4, alt: 'Album page titled Harmony, a couple seated beside an antique mirror', label: 'View more album designs on Instagram' },
+  { src: couplePortrait2, alt: 'Couple sharing a playful wedding moment', label: 'View more wedding portraits on Instagram' },
+  { src: portrait5, alt: 'Couple sharing a kiss framed by a wooden doorway', label: 'View more couple portraits on Instagram' },
+];
+---
+
+<section class="gallery section">
+  <div class="section-head">
+    <div><p class="eyebrow dark">05 — THE GALLERY</p><h2>A collection of<br /><em>little moments.</em></h2></div>
+    <a class="text-link" href={INSTAGRAM} target="_blank" rel="noopener">View Instagram ↗</a>
+  </div>
+  <div class="masonry">
+    {photos.map((photo) => (
+      <a href={INSTAGRAM} target="_blank" rel="noopener" aria-label={photo.label}>
+        <Photo src={photo.src} alt={photo.alt} sizes="(max-width: 800px) 50vw, 33vw" widths={[400, 700, 1000]} />
+      </a>
+    ))}
+  </div>
+</section>

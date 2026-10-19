@@ -1,0 +1,31 @@
+---
+import Photo from './Photo.astro';
+import bride from '../assets/photos/bride.jpeg';
+import couplePortrait from '../assets/photos/couple-portrait.jpeg';
+import couplePortrait2 from '../assets/photos/couple-portrait-2.jpeg';
+
+const stories = [
+  { src: bride, alt: 'Bride in rose-toned wedding attire, photographed outdoors', label: '01 / WEDDING', title: 'The beginning of forever', large: true },
+  { src: couplePortrait, alt: 'Black-and-white portrait of a couple beneath a flowing veil', label: '02 / COUPLE', title: 'In between the moments' },
+  { src: couplePortrait2, alt: 'Playful black-and-white wedding portrait of a couple', label: '03 / CELEBRATION', title: 'Joy, without direction' },
+];
+---
+
+<section id="stories" class="stories section" tabindex="-1">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow dark">01 — SELECTED STORIES</p>
+      <h2>Stories worth<br /><em>reliving.</em></h2>
+    </div>
+    <p>Every wedding has its own rhythm.<br />We follow yours.</p>
+  </div>
+
+  <div class="story-grid">
+    {stories.map((story) => (
+      <article class={story.large ? 'story story-large' : 'story'}>
+        <Photo src={story.src} alt={story.alt} sizes={story.large ? '(max-width: 800px) 100vw, 58vw' : '(max-width: 800px) 100vw, 30vw'} />
+        <div><span>{story.label}</span><h3>{story.title}</h3></div>
+      </article>
+    ))}
+  </div>
+</section>

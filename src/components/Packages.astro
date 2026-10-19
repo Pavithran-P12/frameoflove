@@ -1,0 +1,68 @@
+---
+import { packages, coverageOptions, additionalServices, paymentTerms } from '../data/packages';
+import { whatsapp } from '../data/site';
+---
+
+<section id="packages" class="packages section" tabindex="-1">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow dark">02 — WEDDING PHOTOGRAPHY PACKAGES</p>
+      <h2>Choose your<br /><em>story.</em></h2>
+    </div>
+    <p>Three packages, each building on the last.<br />Pick the story you want to keep.</p>
+  </div>
+
+  <div class="coverage">
+    <p class="coverage-label">Every package, two ways</p>
+    <div class="coverage-options">
+      {coverageOptions.map((option) => <div><strong>{option.name}</strong><span>{option.detail}</span></div>)}
+    </div>
+  </div>
+
+  <div class="package-grid">
+    {packages.map((pkg) => (
+      <article class={pkg.featured ? 'package featured' : 'package'}>
+        {pkg.featured && <p class="featured-label">Most loved</p>}
+        <header class="package-top">
+          <span class="package-num">{pkg.num}</span>
+          <h3>{pkg.name}</h3>
+          <p class="package-tagline">{pkg.tagline}</p>
+          <p class="package-best"><span>Best for</span>{pkg.bestFor}</p>
+        </header>
+        <div class="package-block">
+          <h4>What's included</h4>
+          {pkg.base && <p class="package-base">{pkg.base}</p>}
+          <ul class="package-list">
+            {pkg.included.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="package-block complimentary">
+          <h4>With our compliments</h4>
+          <ul class="gift-list">
+            {pkg.gifts.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <a
+          class="package-cta"
+          href={whatsapp(`Hi Frame OF Love, I'm interested in the ${pkg.name} package. Please share pricing and availability.`)}
+          target="_blank"
+          rel="noopener"
+        >Ask about {pkg.name} <span aria-hidden="true">↗</span></a>
+      </article>
+    ))}
+  </div>
+  <p class="package-quote-note">Pricing depends on your dates, venue and coverage. <a href={whatsapp("Hi Frame OF Love, I'd like a quote for my wedding.")} target="_blank" rel="noopener">Ask us for a personalised quote ↗</a></p>
+
+  <div class="extras">
+    <div><span>+</span><h3>Additional Services</h3></div>
+    <p>{additionalServices.join('  ·  ')}</p>
+  </div>
+
+  <div class="terms-grid">
+    <div><p class="eyebrow dark">PAYMENT TERMS</p><h3>Simple & clear.</h3></div>
+    <ul>
+      {paymentTerms.map((term) => <li><strong>{term.value}</strong><span>{term.detail}</span></li>)}
+    </ul>
+  </div>
+  <p class="delivery-note">Delivery: 20–30 working days &nbsp;·&nbsp; Travel & accommodation extra outside city limits</p>
+</section>

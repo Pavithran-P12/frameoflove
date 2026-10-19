@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo/logo.png';
+import logoLight from '../assets/logo/logo-light.png';
+import { whatsapp } from '../data/site';
+
+const links = [
+  { href: '#stories', label: 'Stories' },
+  { href: '#packages', label: 'Packages' },
+  { href: '#films', label: 'Films' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="nav">
+  <!-- Dark logo shows on the cream (scrolled) header; the light one over photos and dark surfaces. -->
+  <a class="brand" href="#top" aria-label="Frame OF Love — home">
+    <Image class="brand-logo brand-logo-dark" src={logo} alt="" widths={[160, 240]} sizes="80px" loading="eager" />
+    <Image class="brand-logo brand-logo-light" src={logoLight} alt="" widths={[160, 240]} sizes="80px" loading="eager" />
+  </a>
+  <nav id="site-navigation" aria-label="Main navigation">
+    {links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true">↘</span></a>)}
+  </nav>
+  <a class="nav-cta" href={whatsapp("Hi Frame OF Love, I'd like to check availability and booking.")} target="_blank" rel="noopener">Enquire <span>↗</span></a>
+  <button class="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-navigation"><span></span><span></span></button>
+</header>
