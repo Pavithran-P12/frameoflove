@@ -1,10 +1,19 @@
 ---
+import Photo from './Photo.astro';
+import office from '../assets/photos/office.jpg';
 import { PHONE, PHONE_INTL, INSTAGRAM, YOUTUBE, MAPS, whatsapp } from '../data/site';
+import { business } from '../data/legal';
 ---
 
-<section id="contact" class="contact" tabindex="-1">
+<section id="contact" class="contact has-office" tabindex="-1">
   <p class="eyebrow">06 — LET'S CREATE</p>
   <h2>Tell us<br /><em>your story.</em></h2>
+  <div class="contact-office">
+    <Photo src={office} alt="The Frame OF Love studio in Coimbatore: a sky-blue building with the Frame OF Love signboard and a white picket fence" sizes="(max-width: 800px) 100vw, (max-width: 1100px) 50vw, 40vw" />
+    <a class="office-pin" href={MAPS} target="_blank" rel="noopener" aria-label="Open our studio location in Google Maps (opens in a new tab)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>
+    </a>
+  </div>
   <p>Check your date, ask about packages, or start planning your wedding coverage with Frame OF Love.</p>
   <div class="contact-actions">
     <a class="contact-button whatsapp" href={whatsapp("Hi Frame OF Love, I'd like to check availability for my wedding.")} target="_blank" rel="noopener">WhatsApp <span>↗</span></a>
@@ -15,5 +24,7 @@ import { PHONE, PHONE_INTL, INSTAGRAM, YOUTUBE, MAPS, whatsapp } from '../data/s
     <a href={INSTAGRAM} target="_blank" rel="noopener"><svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="2" /><path d="m8 6 1-3h6l1 3" /><circle cx="12" cy="13" r="4" /></svg> INSTAGRAM</a>
     <a href={YOUTUBE} target="_blank" rel="noopener"><svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="4" /><path d="m10 9 5 3-5 3z" /></svg> YOUTUBE</a>
     <a href={`tel:+${PHONE_INTL}`}><svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 3 3 5-2 2a14 14 0 0 0 6 6l2-2 5 3-1 4C11 22 2 13 3 4Z" /></svg> {PHONE}</a>
+    <span class="contact-meta-item"><svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 8h8M8 12h8M8 16h5" /></svg> GSTIN: {business.gstin}</span>
+    <a href="/legal"><svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z" /></svg> TERMS &amp; PRIVACY</a>
   </div>
 </section>

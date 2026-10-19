@@ -6,7 +6,7 @@ import { whatsapp } from '../data/site';
 
 interface Props {
   /** Which page is showing, to mark its menu item. */
-  current?: 'home' | 'gallery';
+  current?: 'home' | 'gallery' | 'legal';
 }
 
 const { current = 'home' } = Astro.props;
@@ -19,6 +19,7 @@ const links = [
   { href: '/gallery', label: 'Gallery', page: 'gallery' },
   { href: '/#about', label: 'About' },
   { href: '/#contact', label: 'Contact' },
+  { href: '/legal', label: 'Legal', page: 'legal' },
 ];
 ---
 

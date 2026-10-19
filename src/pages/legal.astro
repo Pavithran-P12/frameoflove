@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { terms, privacy, business, type Block } from '../data/legal';
+
+const parts = [terms, privacy];
+const sectionId = (partId: string, i: number) => `${partId}-${i + 1}`;
+---
+
+<BaseLayout
+  title="Terms & Privacy Policy — Frame OF Love"
+  description="Frame of Love's Terms & Conditions for bookings and its Privacy Policy."
+>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <SiteHeader current="legal" />
+  <main id="main-content" class="legal-page" tabindex="-1">
+    <section class="page-hero">
+      <p class="eyebrow">FRAME OF LOVE</p>
+      <h1>Legal<br /><em>Information.</em></h1>
+      <nav class="album-index" aria-label="On this page">
+        {parts.map((part) => <a href={`#${part.id}`}>{part.title}</a>)}
+      </nav>
+    </section>
+
+    <div class="legal section">
+      {parts.map((part) => (
+        <article id={part.id} class="legal-part" tabindex="-1">
+          <h2>{part.title}</h2>
+          {part.intro?.map((block: Block) => ('p' in block ? <p class="legal-intro">{block.p}</p> : null))}
+          <ol class="legal-toc" aria-label={`${part.title}: sections`}>
+            {part.sections.map((section, i) => <li><a href={`#${sectionId(part.id, i)}`}>{section.title}</a></li>)}
+          </ol>
+          {part.sections.map((section, i) => (
+            <section id={sectionId(part.id, i)} class="legal-section">
+              <h3>{section.title}</h3>
+              {section.blocks.map((block: Block) =>
+                'p' in block ? <p>{block.p}</p> : <ul>{block.ul.map((item) => <li>{item}</li>)}</ul>,
+              )}
+              {part.id === 'privacy' && i === part.sections.length - 1 && (
+                <>
+                  <dl class="legal-details">
+                    <div><dt>Business Name:</dt><dd>{business.name}</dd></div>
+                    <div><dt>Website:</dt><dd><a href={business.website}>{business.website}</a></dd></div>
+                    <div><dt>Email:</dt><dd><a href={`mailto:${business.email}`}>{business.email}</a></dd></div>
+                    <div><dt>Address:</dt><dd>{business.address}</dd></div>
+                    <div><dt>GST Registration Number:</dt><dd>{business.gstin}</dd></div>
+                  </dl>
+                  <p>{business.closing}</p>
+                </>
+              )}
+            </section>
+          ))}
+        </article>
+      ))}
+    </div>
+  </main>
+  <SiteFooter />
+</BaseLayout>

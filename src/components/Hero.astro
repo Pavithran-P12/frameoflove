@@ -1,5 +1,6 @@
 ---
 import Photo from './Photo.astro';
+import { whatsapp } from '../data/site';
 import hero1 from '../assets/photos/hero-1.jpg';
 import hero2 from '../assets/photos/hero-2.jpeg';
 import hero3 from '../assets/photos/hero-3.jpeg';
@@ -9,7 +10,7 @@ import hero4 from '../assets/photos/hero-4.jpeg';
 // (horizontal %, vertical %) so the couple stays in frame when the photo is cropped.
 const slides = [
   { src: hero1, alt: 'Couple sharing tea at a garden table framed by flowers and a tomato vine', pos: '75% 62%', posMobile: '80% 60%' },
-  { src: hero2, alt: 'Groom kissing the bride on the forehead beside a laterite stone wall, framed by leaves', pos: '50% 62%', posMobile: '52% 62%' },
+  { src: hero2, alt: 'Groom kissing the bride on the forehead beside a laterite stone wall, framed by leaves', pos: '35% 62%', posMobile: '24% 62%' },
   { src: hero3, alt: 'Couple standing in tall grass at golden hour beside a white horse', pos: '55% 62%', posMobile: '62% 62%' },
   { src: hero4, alt: 'Bride and groom surrounded by loved ones during their wedding ceremony', pos: '50% 40%', posMobile: '47% 30%' },
 ];
@@ -34,7 +35,10 @@ const slides = [
     <p class="eyebrow">COIMBATORE · TAMIL NADU · DESTINATION</p>
     <h1>Turning moments<br /><em>into forever.</em></h1>
     <p class="hero-sub">Photography is about us painting a picture of your precious moments to remember forever.</p>
-    <a class="circle-link" href="#stories">Explore stories <span>↓</span></a>
+    <div class="hero-actions">
+      <a class="contact-button whatsapp hero-quote" href={whatsapp("Hi Frame OF Love, I'd like a quote for my wedding.")} target="_blank" rel="noopener">Get a quote on WhatsApp <span aria-hidden="true">↗</span></a>
+      <a class="circle-link" href="#stories">Explore stories <span>↓</span></a>
+    </div>
   </div>
   <div class="hero-bottom">
     <span>WEDDING PHOTOGRAPHY & CINEMA</span>

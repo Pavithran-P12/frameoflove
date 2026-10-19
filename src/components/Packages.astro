@@ -1,6 +1,8 @@
 ---
 import { packages, coverageOptions, additionalServices, paymentTerms } from '../data/packages';
 import { whatsapp } from '../data/site';
+
+const rupees = (amount: number) => `₹${amount.toLocaleString('en-IN')}`;
 ---
 
 <section id="packages" class="packages section" tabindex="-1">
@@ -26,14 +28,25 @@ import { whatsapp } from '../data/site';
         <header class="package-top">
           <span class="package-num">{pkg.num}</span>
           <h3>{pkg.name}</h3>
+          <dl class="package-prices">
+            {coverageOptions.map((option, i) => (
+              <div><dt>{option.name}</dt><dd>{rupees(pkg.prices[i])}</dd></div>
+            ))}
+          </dl>
           <p class="package-tagline">{pkg.tagline}</p>
           <p class="package-best"><span>Best for</span>{pkg.bestFor}</p>
         </header>
         <div class="package-block">
           <h4>What's included</h4>
-          {pkg.base && <p class="package-base">{pkg.base}</p>}
-          <ul class="package-list">
-            {pkg.included.map((item) => <li>{item}</li>)}
+          {pkg.included.some((item) => item.isNew) && (
+            <p class="package-legend"><span aria-hidden="true">+</span> New in {pkg.name}</p>
+          )}
+          <ul class={pkg.included.some((item) => item.isNew) ? 'package-list has-new' : 'package-list'}>
+            {pkg.included.map((item) => (
+              <li class={item.isNew ? 'is-new' : undefined}>
+                {item.text}{item.isNew && <span class="visually-hidden"> (new in {pkg.name})</span>}
+              </li>
+            ))}
           </ul>
         </div>
         <div class="package-block complimentary">
@@ -44,14 +57,14 @@ import { whatsapp } from '../data/site';
         </div>
         <a
           class="package-cta"
-          href={whatsapp(`Hi Frame OF Love, I'm interested in the ${pkg.name} package. Please share pricing and availability.`)}
+          href={whatsapp(`Hi Frame OF Love, I'm interested in the ${pkg.name} package. Please share availability for my dates.`)}
           target="_blank"
           rel="noopener"
         >Ask about {pkg.name} <span aria-hidden="true">↗</span></a>
       </article>
     ))}
   </div>
-  <p class="package-quote-note">Pricing depends on your dates, venue and coverage. <a href={whatsapp("Hi Frame OF Love, I'd like a quote for my wedding.")} target="_blank" rel="noopener">Ask us for a personalised quote ↗</a></p>
+  <p class="package-quote-note">Need a different mix of coverage? <a href={whatsapp("Hi Frame OF Love, I'd like a personalised quote for my wedding.")} target="_blank" rel="noopener">Ask us for a personalised quote ↗</a></p>
 
   <div class="extras">
     <div><span>+</span><h3>Additional Services</h3></div>
