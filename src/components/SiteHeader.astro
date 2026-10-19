@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { Image } from 'astro:assets';
 import logo from '../assets/logo/logo.png';
 import logoLight from '../assets/logo/logo-light.png';
@@ -31,9 +32,9 @@ const links = [
   </a>
   <nav id="site-navigation" aria-label="Main navigation">
     {links.map((link) => (
-      <a href={link.href} aria-current={link.page && link.page === current ? 'page' : undefined}>{link.label} <span aria-hidden="true">↘</span></a>
+      <a href={link.href} aria-current={link.page && link.page === current ? 'page' : undefined}>{link.label} <span aria-hidden="true"><Icon name="down-right" /></span></a>
     ))}
   </nav>
-  <a class="nav-cta" href={whatsapp("Hi Frame OF Love, I'd like to check availability and booking.")} target="_blank" rel="noopener">Enquire <span>↗</span></a>
+  <a class="nav-cta" href={whatsapp("Hi Frame OF Love, I'd like to check availability and booking.")} target="_blank" rel="noopener">Enquire <span><Icon name="up-right" /></span></a>
   <button class="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-navigation"><span></span><span></span></button>
 </header>

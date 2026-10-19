@@ -1,0 +1,20 @@
+---
+// Line-drawn arrow icons used on buttons and links. They size to the surrounding
+// text (1em) and take its colour, so the existing font-size rules control them.
+interface Props {
+  name: 'up-right' | 'down-right' | 'down' | 'up' | 'left' | 'right';
+}
+
+const paths: Record<Props['name'], string> = {
+  'up-right': 'M7 17 17 7M8.5 7H17v8.5',
+  'down-right': 'M7 7l10 10M17 8.5V17H8.5',
+  down: 'M12 4.5v15M6 13.5l6 6 6-6',
+  up: 'M12 19.5v-15M6 10.5l6-6 6 6',
+  left: 'M19.5 12h-15M10.5 6l-6 6 6 6',
+  right: 'M4.5 12h15M13.5 6l6 6-6 6',
+};
+
+const { name } = Astro.props;
+---
+
+<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={paths[name]} /></svg>

@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import Photo from './Photo.astro';
 import { INSTAGRAM } from '../data/site';
 import gallery01 from '../assets/photos/gallery-01.jpg';
@@ -28,7 +29,7 @@ const photos = [
 <section class="gallery section">
   <div class="section-head">
     <div><p class="eyebrow dark">05 — THE GALLERY</p><h2>A collection of<br /><em>little moments.</em></h2></div>
-    <a class="text-link" href="/gallery">Open the gallery <span aria-hidden="true">↘</span></a>
+    <a class="text-link" href="/gallery">Open the gallery <span aria-hidden="true"><Icon name="down-right" /></span></a>
   </div>
   <div class="masonry">
     {photos.map((photo) => (

@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { Image } from 'astro:assets';
 import logoLight from '../assets/logo/logo-light.png';
 import { whatsapp } from '../data/site';
@@ -8,7 +9,7 @@ import { whatsapp } from '../data/site';
   <a class="brand" href="#top"><Image class="brand-logo" src={logoLight} alt="Frame OF Love — back to top" widths={[192, 288]} sizes="96px" /></a>
   <p>Wedding photography & cinematic films · Coimbatore</p>
   <a href="/legal">Terms &amp; Privacy</a>
-  <a href="#top">Back to top ↑</a>
+  <a href="#top">Back to top <Icon name="up" /></a>
   <a
     class="floating-whatsapp"
     href={whatsapp("Hi Frame of Love! I'd like to enquire about your photography packages.")}

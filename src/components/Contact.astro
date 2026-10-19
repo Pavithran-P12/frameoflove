@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import Photo from './Photo.astro';
 import office from '../assets/photos/office.jpg';
 import { PHONE, PHONE_INTL, INSTAGRAM, YOUTUBE, MAPS, whatsapp } from '../data/site';
@@ -16,8 +17,8 @@ import { business } from '../data/legal';
   </div>
   <p>Check your date, ask about packages, or start planning your wedding coverage with Frame OF Love.</p>
   <div class="contact-actions">
-    <a class="contact-button whatsapp" href={whatsapp("Hi Frame OF Love, I'd like to check availability for my wedding.")} target="_blank" rel="noopener">WhatsApp <span>↗</span></a>
-    <a class="contact-button" href={`tel:+${PHONE_INTL}`}>Call {PHONE} <span>↗</span></a>
+    <a class="contact-button whatsapp" href={whatsapp("Hi Frame OF Love, I'd like to check availability for my wedding.")} target="_blank" rel="noopener">WhatsApp <span><Icon name="up-right" /></span></a>
+    <a class="contact-button" href={`tel:+${PHONE_INTL}`}>Call {PHONE} <span><Icon name="up-right" /></span></a>
   </div>
   <div class="contact-meta">
     <a href={MAPS} target="_blank" rel="noopener"><svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg> OFFICE LOCATION</a>

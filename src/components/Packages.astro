@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { packages, coverageOptions, additionalServices, paymentTerms } from '../data/packages';
 import { whatsapp } from '../data/site';
 
@@ -60,11 +61,11 @@ const rupees = (amount: number) => `₹${amount.toLocaleString('en-IN')}`;
           href={whatsapp(`Hi Frame OF Love, I'm interested in the ${pkg.name} package. Please share availability for my dates.`)}
           target="_blank"
           rel="noopener"
-        >Ask about {pkg.name} <span aria-hidden="true">↗</span></a>
+        >Ask about {pkg.name} <span aria-hidden="true"><Icon name="up-right" /></span></a>
       </article>
     ))}
   </div>
-  <p class="package-quote-note">Need a different mix of coverage? <a href={whatsapp("Hi Frame OF Love, I'd like a personalised quote for my wedding.")} target="_blank" rel="noopener">Ask us for a personalised quote ↗</a></p>
+  <p class="package-quote-note">Need a different mix of coverage? <a href={whatsapp("Hi Frame OF Love, I'd like a personalised quote for my wedding.")} target="_blank" rel="noopener">Ask us for a personalised quote <Icon name="up-right" /></a></p>
 
   <div class="extras">
     <div><span>+</span><h3>Additional Services</h3></div>

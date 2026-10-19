@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { films } from '../data/films';
 import { YOUTUBE, YOUTUBE_HANDLE } from '../data/site';
 ---
@@ -10,10 +11,10 @@ import { YOUTUBE, YOUTUBE_HANDLE } from '../data/site';
       <h2 id="films-title">Stories in<br /><em>motion.</em></h2>
     </div>
     <div class="films-controls">
-      <a class="text-link" href={YOUTUBE} target="_blank" rel="noopener">YouTube channel <span aria-hidden="true">↗</span></a>
+      <a class="text-link" href={YOUTUBE} target="_blank" rel="noopener">YouTube channel <span aria-hidden="true"><Icon name="up-right" /></span></a>
       <div class="carousel-buttons" hidden>
-        <button class="carousel-button" type="button" data-carousel-prev aria-label="Previous films" aria-controls="films-track"><span aria-hidden="true">←</span></button>
-        <button class="carousel-button" type="button" data-carousel-next aria-label="Next films" aria-controls="films-track"><span aria-hidden="true">→</span></button>
+        <button class="carousel-button" type="button" data-carousel-prev aria-label="Previous films" aria-controls="films-track"><span aria-hidden="true"><Icon name="left" /></span></button>
+        <button class="carousel-button" type="button" data-carousel-next aria-label="Next films" aria-controls="films-track"><span aria-hidden="true"><Icon name="right" /></span></button>
       </div>
     </div>
   </div>
@@ -43,7 +44,7 @@ import { YOUTUBE, YOUTUBE_HANDLE } from '../data/site';
       ))}
       <li class="film-tile film-tile-more">
         <a class="film-tile-link" href={`${YOUTUBE}/videos`} target="_blank" rel="noopener">
-          <span class="film-tile-more-mark" aria-hidden="true">↗</span>
+          <span class="film-tile-more-mark" aria-hidden="true"><Icon name="up-right" /></span>
           <span class="film-tile-text">
             <span class="film-tile-meta">YouTube</span>
             <span class="film-tile-title">More films on our channel</span>
